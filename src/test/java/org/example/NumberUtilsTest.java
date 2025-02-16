@@ -59,6 +59,35 @@ class NumberUtilsTest {
      *
      */
 
+    // Mutation Testing For Assignment #4
+    // Test Case #1
+    // This test case is for line 45 when rightDigit > 9 is changed to rightDigit >= 9, none of the prior tests caught that change.
+    @Test
+    @DisplayName("Mutation Test Case: Line 45 Case")
+    void testRightDigitValue() {
+        // Adding [9] and [9] should be valid, and should result in [1, 8].
+        List<Integer> left = Arrays.asList(9);
+        List<Integer> right = Arrays.asList(9);
+        List<Integer> expected = Arrays.asList(1, 8);
+        // Uses assertDoesNotThrow to verify that no exception is thrown, but since the mutation happens to rightDigit > 9, this throws the exception.
+        List<Integer> result = assertDoesNotThrow(() -> NumberUtils.add(left, right),
+                "Digits equal to 9 should be valid and no exception thrown.");
+        assertEquals(expected, result, "Adding [9] + [9] should result in [1,8].");
+    }
+
+    // Test Case #2
+    // This test case is for line 59 when result.size > 1 is changed to result.size >= 1, none of the prior tests caught that change.
+    @Test
+    @DisplayName("Mutation Test Case: Line 59 Case")
+    void testSumZero() {
+        // When adding two zero together, the sum is zero, but the mutation results in the zero getting removed.
+        List<Integer> left = Arrays.asList(0);
+        List<Integer> right = Arrays.asList(0);
+        List<Integer> expected = Arrays.asList(0);
+        List<Integer> result = NumberUtils.add(left, right);
+        assertEquals(expected, result, "The result should be [0].");
+    }
+
     // Specification-Based Tests (From Assignment #1)
 
     // Parameterized Test For Null Inputs
@@ -84,7 +113,7 @@ class NumberUtilsTest {
     // Parameterized Test for Empty Inputs
     static Stream<Arguments> emptyInputDataProvider() {
         return Stream.of(
-                Arguments.of(Collections.emptyList(), Collections.emptyList(), List.of(), "Method should return [0], when both inputs are empty since they represent [0], when empty."),
+                Arguments.of(Collections.emptyList(), Collections.emptyList(), List.of(), "Method should return [], when both inputs are empty since they represent [0], when empty."),
                 Arguments.of(Collections.emptyList(), Arrays.asList(2,4), Arrays.asList(2,4), "Empty left input and non-empty right input should result in [2,4]"),
                 Arguments.of(Arrays.asList(2, 4), Collections.emptyList(), Arrays.asList(2,4), "Non-empty left input and empty right input should result in [2,4]")
         );
